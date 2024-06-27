@@ -20,7 +20,7 @@ class Main extends Component {
   render() {
     return (
       <div className="body-customer">
-        <ToastContainer autoClose={3000} />
+          <ToastContainer autoClose={3000} />
         <Menu />
         <Inform />
         <Routes>
@@ -37,7 +37,6 @@ class Main extends Component {
           <Route path='/myorders' element={<Myorders />} />
           <Route path='/gmap' element={<Gmap />} />
           <Route path='/resetpwd' element={<Resetpwd />} />
-
         </Routes>
         <TawkMessenger />
       </div>

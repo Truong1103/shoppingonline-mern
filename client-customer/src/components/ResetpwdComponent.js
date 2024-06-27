@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {Component} from "react";
+import React, { Component } from "react";
 
 class Resetpwd extends Component{
     constructor(props){
@@ -54,8 +54,7 @@ class Resetpwd extends Component{
                     </table>
                 </form>
             </div>
-        );
-    
+        );    
 }
 // even-handlers
 btnEmailClick(e) {

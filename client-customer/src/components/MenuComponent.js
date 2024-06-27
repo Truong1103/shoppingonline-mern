@@ -26,9 +26,6 @@ class Menu extends Component {
           <li className="menu"><Link to='/gmap'>Gmap</Link></li>
           </ul>
         </div>
-        <div style={{ display: "inline" }} class="form-switch">
-          <input class="form-check-input" type="checkbox" onChange={(e) => this.ckbChangeMode(e)} />&nbsp; Light / Dark mode
-          </div>
         <div className="float-right">
           <form className="search">
             <input type="search" placeholder="Enter keyword" className="keyword" value={this.state.txtKeyword} onChange={(e) => { this.setState({ txtKeyword: e.target.value }) }} />
@@ -47,13 +44,6 @@ class Menu extends Component {
       e.preventDefault();
       this.props.navigate('/product/search/' + this.state.txtKeyword);
     }
-  ckbChangeMode (e) {
-    if (e.target. checked) {
-    document.documentElement.setAttribute('data-bs-theme', 'dark');
-    } else {
-    document.documentElement.setAttribute('data-bs-theme', 'light');
-    }
-  }
   // apis
   apiGetCategories() {
     axios.get('/api/customer/categories').then((res) => {
