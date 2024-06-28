@@ -38,7 +38,7 @@ class Home extends Component {
         </div>
         {this.state.hotprods.length > 0 ?
           <div className="align-center">
-            <h2 className="text-center">HOT PRODUCTS</h2>
+            <h2 className="text-center">HOT PRODUTS</h2>
             {hotprods}
           </div>
           : <div />}
