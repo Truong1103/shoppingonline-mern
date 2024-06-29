@@ -4,44 +4,70 @@ import MyContext from '../contexts/MyContext';
 import withRouter from '../utils/withRouter';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { FaUser, FaLock } from 'react-icons/fa';
+
 class Login extends Component {
   static contextType = MyContext; // using this.context to access global state
   constructor(props) {
     super(props);
     this.state = {
-      txtUsername: 'truongkk',
-      txtPassword: '123'
+      txtUsername: '',
+      txtPassword: ''
     };
   }
+
   render() {
     return (
-      <div className="align-center">
-        <h2 className="text-center">CUSTOMER LOGIN</h2>
-        <form>
-          <table className="align-center">
-            <tbody>
-              <tr>
-                <td>Username</td>
-                <td><input type="text" value={this.state.txtUsername} onChange={(e) => { this.setState({ txtUsername: e.target.value }) }} /></td>
-              </tr>
-              <tr>
-                <td>Password</td>
-                <td><input type="password" value={this.state.txtPassword} onChange={(e) => { this.setState({ txtPassword: e.target.value }) }} /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><input type="submit" value="LOGIN" onClick={(e) => this.btnLoginClick(e)} /></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><Link to="/resetpwd">Forgot password</Link></td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
+      <div style={styles.alignCenter}>
+        <div style={styles.loginContainer}>
+          <div style={styles.loginImgContainer}>
+            <img src="https://cdn-icons-png.flaticon.com/256/7381/7381253.png" alt="Login" style={styles.loginImage} />
+          </div>
+          <h2 style={styles.title}>CUSTOMER LOGIN</h2>
+          <form>
+            <div style={styles.inputGroup}>
+              <FaUser style={styles.icon} />
+              <input
+                type="text"
+                placeholder="Username"
+                value={this.state.txtUsername}
+                onChange={(e) => {
+                  this.setState({ txtUsername: e.target.value });
+                }}
+                style={styles.input} // Apply input style
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <FaLock style={styles.icon} />
+              <input
+                type="password"
+                placeholder="Password"
+                value={this.state.txtPassword}
+                onChange={(e) => {
+                  this.setState({ txtPassword: e.target.value });
+                }}
+                style={styles.input} // Apply input style
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <input
+                type="submit"
+                value="LOGIN"
+                onClick={(e) => this.btnLoginClick(e)}
+                style={styles.submitButton} // Apply submitButton style
+              />
+            </div>
+            <div style={styles.forgotPassword}>
+              <Link to="/resetpwd" style={styles.forgotPasswordLink}>
+                Forgot Username / Password?
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     );
   }
+
   // event-handlers
   btnLoginClick(e) {
     e.preventDefault();
@@ -51,10 +77,10 @@ class Login extends Component {
       const account = { username: username, password: password };
       this.apiLogin(account);
     } else {
-      //alert('Please input username and password');
       toast.warning("Please input username and password");
     }
   }
+
   // apis
   apiLogin(account) {
     axios.post('/api/customer/login', account).then((res) => {
@@ -63,12 +89,87 @@ class Login extends Component {
         this.context.setToken(result.token);
         this.context.setCustomer(result.customer);
         this.props.navigate('/home');
-        toast.success("Wellcome to ShoppingOnline");
+        toast.success("Welcome to ShoppingOnline");
       } else {
-        //alert(result.message);
         toast.error(result.message);
       }
     });
   }
 }
+
+const styles = {
+  alignCenter: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '65vh',
+    backgroundImage: 'url(https://e1.pxfuel.com/desktop-wallpaper/581/154/desktop-wallpaper-backgrounds-for-login-page-login-page.jpg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    margin: 0,
+    overflow: 'hidden',
+  },
+  loginContainer: {
+    backgroundColor: '#fff',
+    borderRadius: '20px',
+    padding: '40px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    color: '#CA0DF9',
+    width: '400px',
+    boxSizing: 'border-box',
+  },
+  loginImgContainer: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  loginImage: {
+    width: '100px',
+    height: '100px',
+    borderRadius: '50%',
+  },
+  title: {
+    marginBottom: '20px',
+  },
+  inputGroup: {
+    position: 'relative',
+    marginBottom: '15px',
+  },
+  input: {
+    width: '100%',
+    padding: '10px 10px 10px 40px',
+    border: '1px solid #ccc',
+    borderRadius: '20px',
+    boxSizing: 'border-box',
+  },
+  icon: {
+    position: 'absolute',
+    left: '10px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    color: '#ccc',
+  },
+  submitButton: {
+    width: '100%',
+    padding: '10px',
+    border: 'none',
+    borderRadius: '20px',
+    background: 'green', // Adjusted gradient background
+    color: '#fff',
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+    transition: 'background-color 0.3s ease',
+    outline: 'none',
+  },
+  forgotPassword: {
+    marginTop: '15px',
+  },
+  forgotPasswordLink: {
+    color: '#007bff',
+    textDecoration: 'none',
+  },
+};
+
+
 export default withRouter(Login);

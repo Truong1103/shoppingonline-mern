@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Menu from './MenuComponent';
 import Inform from './InformComponent';
 import Home from './HomeComponent';
@@ -16,11 +18,28 @@ import TawkMessenger from './TawkMessengerComponent';
 import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 import Resetpwd from './ResetpwdComponent';
+
 class Main extends Component {
   render() {
+    const bannerImages = [
+      'https://24hstore.vn/images/banners/original/pc-top-he-thong-uy-quyen-chinh-hang_1717578012.jpg',
+      'https://24hstore.vn/images/banners/original/pc-top-gop-4-khong_1717578110.jpg',
+      'https://24hstore.vn/images/banners/original/pc-top-hoan-tien_1717578087.jpg'
+    ];
+
     return (
       <div className="body-customer">
-          <ToastContainer autoClose={3000} />
+        <ToastContainer autoClose={3000} />
+        {/* Carousel at the top */}
+        <div className="banner-container">
+          <Carousel autoPlay interval={2000} infiniteLoop showThumbs={false}>
+            {bannerImages.map((url, index) => (
+              <div key={index}>
+                <img src={url} alt={`Banner ${index + 1}`} className="img-responsive" />
+              </div>
+            ))}
+          </Carousel>
+        </div>
         <Menu />
         <Inform />
         <Routes>
@@ -43,4 +62,5 @@ class Main extends Component {
     );
   }
 }
+
 export default Main;

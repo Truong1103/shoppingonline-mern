@@ -3,8 +3,10 @@ import MyContext from '../contexts/MyContext';
 import CartUtil from '../utils/CartUtil';
 import axios from 'axios';
 import withRouter from '../utils/withRouter';
+
 class Mycart extends Component {
-  static contextType = MyContext; // using this.context to access global state
+  static contextType = MyContext;
+
   render() {
     const mycart = this.context.mycart.map((item, index) => {
       return (
@@ -21,9 +23,10 @@ class Mycart extends Component {
         </tr>
       );
     });
+
     return (
       <div className="align-center">
-        <h2 className="text-center">ITEM LIST</h2>
+        <h2 className="text-center" style={{ color: 'orange', animation: 'color-change 1s infinite' }}>ITEM LIST</h2>
         <table className="datatable" border="1">
           <tbody>
             <tr className="datatable">
@@ -49,15 +52,16 @@ class Mycart extends Component {
       </div>
     );
   }
-  // event-handlers
+
   lnkRemoveClick(id) {
     const mycart = this.context.mycart;
     const index = mycart.findIndex(x => x.product._id === id);
-    if (index !== -1) { // found, remove item
+    if (index !== -1) {
       mycart.splice(index, 1);
       this.context.setMycart(mycart);
     }
   }
+
   lnkCheckoutClick() {
     if (window.confirm('ARE YOU SURE?')) {
       if (this.context.mycart.length > 0) {
@@ -74,20 +78,21 @@ class Mycart extends Component {
       }
     }
   }
-    // apis
+
   apiCheckout(total, items, customer) {
-      const body = { total: total, items: items, customer: customer };
-      const config = { headers: { 'x-access-token': this.context.token } };
-      axios.post('/api/customer/checkout', body, config).then((res) => {
-        const result = res.data;
-        if (result) {
-          alert('OK BABY!');
-          this.context.setMycart([]);
-          this.props.navigate('/home');
-        } else {
-          alert('SORRY BABY!');
+    const body = { total: total, items: items, customer: customer };
+    const config = { headers: { 'x-access-token': this.context.token } };
+    axios.post('/api/customer/checkout', body, config).then((res) => {
+      const result = res.data;
+      if (result) {
+        alert('OK BABY!');
+        this.context.setMycart([]);
+        this.props.navigate('/home');
+      } else {
+        alert('SORRY BABY!');
       }
     });
   }
 }
+
 export default withRouter(Mycart);
